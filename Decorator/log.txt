@@ -1,0 +1,2 @@
+The 'calculate' operation was performed with '('1 + 1',)' arguments, the result is '2'
+The 'calculate' operation was performed with '('2 + 10 - 3*(2 - 4**4)',)' arguments, the result is '774'
