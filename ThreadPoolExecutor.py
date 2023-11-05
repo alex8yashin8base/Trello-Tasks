@@ -4,6 +4,7 @@ import queue
 
 class MyThreadPoolExecutor:
     def __init__(self, max_workers):
+        # лучше переименовывать те атрибуты к которым доступ не жалетелен из вне
         self.max_workers = max_workers
         self.thread_pool = []
         self.task_queue = queue.Queue()
@@ -18,6 +19,7 @@ class MyThreadPoolExecutor:
         while not self.shutdown:
             try:
                 task = self.task_queue.get()
+            # Empty error здесь не возникнет тк нет timeout'a
             except queue.Empty:
                 continue
 
@@ -45,10 +47,14 @@ class MyThreadPoolExecutor:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+        # стоило реализовать функцию close или stop такую же. А в __exit__ вызывать уже ее.
+        # Просто далеко не всегда люди используют with выражение. Допустим thread pool где-то инициализируется в одном месте, а уже в другом стопится
+        # Пример: обычный бэкенд какого-нидуь приложения. Во время startup создается пул, а уже при shutdown он закрывается
         self.shutdown = True
         for _ in range(self.max_workers):
             self.task_queue.put(None)
 
+        # я бы перенес join'ы в отедльную функцию. Для того чтобы сделать какую-то работу параллельно пока стопятся потоки. Так уменьшается время остановки
         for thread in self.thread_pool:
             thread.join()
 
