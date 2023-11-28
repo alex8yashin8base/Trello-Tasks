@@ -19,7 +19,7 @@ def write_data(data: Dict[str, Any]) -> None:
 @app.route('/notes', methods=['GET'])
 def get_notes() -> Any:
     data = read_data()
-    return jsonify(data)
+    return jsonify(data), 200
 
 @app.route('/notes/<key>', methods=['GET'])
 def get_note(key: str) -> Any:
