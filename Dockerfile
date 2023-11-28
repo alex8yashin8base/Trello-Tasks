@@ -1,5 +1,6 @@
-FROM python:3.8
+FROM python:3.10
 WORKDIR /app
-COPY . /app
+COPY notes.py /app
+COPY data.txt /app
 RUN pip install flask
 CMD ["python", "notes.py"]
