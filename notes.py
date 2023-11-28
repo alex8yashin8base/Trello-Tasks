@@ -27,7 +27,7 @@ def get_note(key: str) -> Any:
     note = data.get(key)
     if note:
         return jsonify({key: note})
-    return jsonify({"error": "Note not found"})
+    return jsonify({"error": "Note not found"}), 404
 
 @app.route('/notes', methods=['POST'])
 def add_note() -> Any:
@@ -36,21 +36,21 @@ def add_note() -> Any:
     for key, value in note_data.items():
         data[key] = value
     write_data(data)
-    return jsonify({"message": "Data updated"})
+    return jsonify({"message": "Data updated"}), 200
 
 @app.route('/notes/<key>', methods=['DELETE'])
 def delete_note(key: str) -> Any:
     data = read_data()
     if key not in data:
-        return jsonify({"error": "Note not found"})
-    del data[key]
+        return jsonify({"error": "Note not found"}), 404
+    data.pop(key)
     write_data(data)
-    return jsonify({"message": "Note deleted"})
+    return jsonify({"message": "Note deleted"}), 200
 
 @app.route('/notes', methods=['DELETE'])
 def delete_all_notes() -> Any:
     write_data({})
-    return jsonify({"message": "All notes deleted"})
+    return jsonify({"message": "All notes deleted"}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
