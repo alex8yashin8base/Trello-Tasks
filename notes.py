@@ -4,7 +4,7 @@ import os
 from typing import Dict, Any
 
 app = Flask(__name__)
-data_file: str = 'data.txt'
+data_file = 'data.txt'
 
 def read_data() -> Dict[str, Any]:
     if not os.path.exists(data_file):
