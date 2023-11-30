@@ -6,7 +6,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - .:/app # звчем?
       - data_volume:/app/data
     environment:
       - FLASK_ENV=development
