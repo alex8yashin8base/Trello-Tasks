@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "alexander-tasks"
+version = "0.1.0"
+description = ""
+authors = ["KlasiFate <klasifate@gmail.com>"]
+readme = "README.md"
+packages = [{include = "alexander_tasks"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0.29"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

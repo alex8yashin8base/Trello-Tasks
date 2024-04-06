@@ -8,10 +8,14 @@ import string
 
 Base = declarative_base()
 
+# как вариант
+class Base(declarative_base()):
+    __mapper_args = {'eager_defaults': True}
+
 class Aircraft(Base):
     __tablename__ = 'aircrafts'
     aircraft_code = Column(String, primary_key=True)
-    model = Column(String, nullable=False)
+    model = Column(String, nullable=False, unique=True)
     range = Column(Integer, nullable=False)
 
 class AircraftData(Base):
@@ -105,6 +109,7 @@ class FlightV(Base):
     actual_arrival_local = Column(DateTime)
     actual_duration = Column(Interval)
 
+# 
 engine = create_engine("postgresql://postgres:postgres@127.0.0.1/demo")
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
@@ -199,6 +204,7 @@ def add_booking(aircraft_code, passenger_id, flight_ids, seat_nos):
     session = Session()
 
     try:
+        # зачем это?
         aircraft = session.query(Aircraft).filter_by(aircraft_code=aircraft_code).one()
 
         booking = Booking(
